@@ -8,8 +8,6 @@ function NewMeetupPage() {
         console.log(data)
 
     }
-
-
     return (
         <div>
             <NewMeetupForm onAddMeetup={addMeetupHandler} />
