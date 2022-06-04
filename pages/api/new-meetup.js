@@ -4,8 +4,6 @@ async function handler(req, res) {
 
     if (req.method === "POST") {
         const data = req.body
-        const { title, address, image, description } = data;
-
         const client = await MongoClient.connect('mongodb+srv://divyansh:developer@neog-cluster.j0bu3.mongodb.net/meetup')
         const db = client.db();
         const meetupsCollection = db.collection('meetups')

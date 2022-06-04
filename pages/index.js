@@ -1,6 +1,7 @@
 // ourdomain/
 import MeetupList from "../components/meetups/MeetupList";
 import { DUMMY_MEETUPS } from "../constant/dummy_meetups";
+import { MongoClient } from 'mongodb'
 
 
 function HomePage(props) {
@@ -22,10 +23,19 @@ function HomePage(props) {
 
 
 export async function getStaticProps() {
-    // fetch the data from the server
+    const client = await MongoClient.connect('mongodb+srv://divyansh:developer@neog-cluster.j0bu3.mongodb.net/meetup')
+    const db = client.db();
+    const meetupsCollection = db.collection('meetups');
+    const meetups = await meetupsCollection.find().toArray();
+
     return {
         props: {
-            meetups: DUMMY_MEETUPS
+            meetups: meetups.map((meetup)=>({
+                title:meetup.title,
+                image:meetup.image,
+                id:meetup._id.toString(),
+                address:meetup.address
+            }))
         },
         revalidate:1
     }
